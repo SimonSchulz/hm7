@@ -17,7 +17,7 @@ export async function confirmRegistration(
     }
 
     if (user.emailConfirmation.isConfirmed) {
-      throw new ValidationError("User already confirmed");
+      res.sendStatus(HttpStatus.NoContent)
     }
 
     const expirationDate = new Date(user.emailConfirmation.expirationDate);

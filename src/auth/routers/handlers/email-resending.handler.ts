@@ -1,5 +1,4 @@
 import {usersRepository} from "../../../user/repositories/user.repository";
-import { ValidationError} from "../../../core/utils/app-response-errors";
 import { addMinutes } from "date-fns";
 import {NextFunction, Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
@@ -18,8 +17,10 @@ export async function resendConfirmationEmail(
           return ;
         }
 
-        if (user.emailConfirmation.isConfirmed) throw new ValidationError('user already confirmed');
-
+        if (user.emailConfirmation.isConfirmed){
+          res.sendStatus(HttpStatus.NoContent);
+          return ;
+        }
 
         const newCode = crypto.randomUUID();
         const newExpiration = addMinutes(new Date(), 10).toISOString();
