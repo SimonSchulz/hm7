@@ -12,7 +12,7 @@ export async function resendConfirmationEmail(
     try {
         const email = req.body.email;
         const user = await usersRepository.findByLoginOrEmail(email);
-        if (!user) throw new NotFoundError('User not found');
+        if (!user) throw new ValidationError('User not found');
 
         if (user.emailConfirmation.isConfirmed) throw new ValidationError('user already confirmed');
 

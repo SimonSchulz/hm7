@@ -11,6 +11,7 @@ import {emailValidation} from "../../user/validation/email.validation";
 import {registrationHandler} from "./handlers/registration.handler";
 import {resendConfirmationEmail} from "./handlers/email-resending.handler";
 import { confirmRegistration } from "./handlers/registration-confirmation.handler";
+import { codeValidation } from "../../user/validation/confirm-code.validation";
 
 export const authRouter = Router();
 
@@ -23,6 +24,7 @@ authRouter.post(
 );
 authRouter.post(
     "/registration-confirmation",
+  codeValidation,
   confirmRegistration
 );
 authRouter.post(
