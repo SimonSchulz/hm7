@@ -30,7 +30,7 @@ export async function confirmRegistration(
       throw new ValidationError("Failed to confirm user");
     }
 
-    res.sendStatus(HttpStatus.NoContent);
+    res.status(HttpStatus.NoContent).send('Email was verified. Account was activated');
   } catch (err) {
     next(err);
   }

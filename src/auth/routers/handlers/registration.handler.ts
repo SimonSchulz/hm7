@@ -24,7 +24,7 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
             }
           }
         }
-        res.send(HttpStatus.NoContent);
+        res.sendStatus(HttpStatus.NoContent);
     }
     catch (e) {
         next(e);
