@@ -25,6 +25,7 @@ authRouter.post(
 authRouter.post(
     "/registration-confirmation",
   codeValidation,
+  inputValidationResultMiddleware,
   confirmRegistration
 );
 authRouter.post(
@@ -38,6 +39,7 @@ authRouter.post(
 authRouter.post(
     "/registration-email-resending",
     emailValidation,
+    inputValidationResultMiddleware,
     resendConfirmationEmail
 );
 authRouter.get(
