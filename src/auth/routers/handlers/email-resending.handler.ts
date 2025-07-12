@@ -14,7 +14,7 @@ export async function resendConfirmationEmail(
         const email = req.body.email;
         const user = await usersRepository.findByLoginOrEmail(email);
         if (!user) {
-          res.sendStatus(HttpStatus.BadRequest).send({errorsMessages: [{ message: 'User with this email not found', field: "email" }] });
+          res.status(HttpStatus.BadRequest).send({errorsMessages: [{ message: 'User with this email not found', field: "email" }] });
           return ;
         }
 

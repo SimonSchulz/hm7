@@ -44,5 +44,6 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
     }
     catch (e) {
         next(e);
+        console.log(e)
     }
 }
