@@ -1,9 +1,10 @@
 import {usersRepository} from "../../../user/repositories/user.repository";
-import {NotFoundError, ValidationError} from "../../../core/utils/app-response-errors";
+import { ValidationError} from "../../../core/utils/app-response-errors";
 import { addMinutes } from "date-fns";
 import {NextFunction, Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
-import {authService} from "../../domain/auth.service";
+import { nodemailerService } from "../../domain/nodemailer.service";
+import { emailExamples } from "../../utils/email-messages";
 
 export async function resendConfirmationEmail(
     req: Request<{}, {}, {email:string }>,
@@ -27,7 +28,11 @@ export async function resendConfirmationEmail(
             newCode,
             newExpiration
         );
-        await authService.confirmEmail(newCode);
+      await nodemailerService.sendEmail(
+        user.email,
+        newCode,
+        emailExamples.registrationEmail
+      );
         res.sendStatus(HttpStatus.NoContent);
     }
     catch (error) {
