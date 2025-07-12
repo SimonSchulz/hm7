@@ -10,11 +10,12 @@ export const authService = {
   async loginUser(
     loginOrEmail: string,
     password: string,
-  ): Promise<string> {
+  ): Promise<string | null> {
     const user = await this.checkUserCredentials(
       loginOrEmail,
       password,
     );
+    if (!user) return null
     return await jwtService.createToken(user._id.toString());
   },
 
@@ -23,9 +24,9 @@ export const authService = {
     password: string,
   ) {
     const user = await usersRepository.findByLoginOrEmail(loginOrEmail);
-    if (!user) throw new AuthorizationError('Wrong login or email');
+    if (!user) return null;
     const isPassValid = await bcryptService.checkPassword(password, user.passwordHash);
-    if (!isPassValid) throw new AuthorizationError('Wrong password');
+    if (!isPassValid) return null;
     return user;
   },
 
