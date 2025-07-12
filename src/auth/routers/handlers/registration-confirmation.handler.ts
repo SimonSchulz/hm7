@@ -12,12 +12,11 @@ export async function confirmRegistration(
     const code = req.body.code;
     const user = await usersRepository.findByConfirmationCode(code);
 
-    if (!user) {
-      throw new ValidationError("Invalid confirmation code");
-    }
-
-    if (user.emailConfirmation.isConfirmed) {
-      res.sendStatus(HttpStatus.NoContent)
+    if (!user || user.emailConfirmation.isConfirmed) {
+      res.status(HttpStatus.BadRequest).send({
+        errorsMessages: [{ field: "code", message: "Invalid confirmation code" }],
+      });
+      return;
     }
 
     const expirationDate = new Date(user.emailConfirmation.expirationDate);
@@ -25,6 +24,7 @@ export async function confirmRegistration(
       res.status(HttpStatus.BadRequest).send({
         errorsMessages: [{ field: "code", message: "Confirmation code expired" }],
       });
+      return;
     }
 
     const success = await usersRepository.confirmUser(user._id.toString());
@@ -32,7 +32,8 @@ export async function confirmRegistration(
       throw new ValidationError("Failed to confirm user");
     }
 
-    res.status(HttpStatus.NoContent);
+    res.sendStatus(HttpStatus.NoContent);
+    return;
   } catch (err) {
     next(err);
   }
