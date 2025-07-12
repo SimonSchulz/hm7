@@ -2,7 +2,6 @@ import { Router } from "express";
 import { passwordValidation } from "../../user/validation/password.validation";
 import { loginOrEmailValidation } from "../../user/validation/login.or.emaol.validation";
 import { inputValidationResultMiddleware } from "../../core/utils/input-validtion-result.middleware";
-
 import { authLoginHandler } from "./handlers/login.handler";
 import {accessTokenGuard} from "./guards/access.token.guard";
 import {getUserDataHandler} from "./handlers/get-user-data.handler";
@@ -12,6 +11,7 @@ import {registrationHandler} from "./handlers/registration.handler";
 import {resendConfirmationEmail} from "./handlers/email-resending.handler";
 import { confirmRegistration } from "./handlers/registration-confirmation.handler";
 import { codeValidation } from "../../user/validation/confirm-code.validation";
+import { emailResendValidation } from "../../user/validation/email.resend.validation";
 
 export const authRouter = Router();
 
@@ -38,7 +38,7 @@ authRouter.post(
 );
 authRouter.post(
     "/registration-email-resending",
-    emailValidation,
+    emailResendValidation,
     inputValidationResultMiddleware,
     resendConfirmationEmail
 );
