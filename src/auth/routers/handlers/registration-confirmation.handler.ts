@@ -12,15 +12,15 @@ export async function confirmRegistration(
     const code = req.body.code;
     const user = await usersRepository.findByConfirmationCode(code);
 
+    if (user?.emailConfirmation.isConfirmed) {
+      res.sendStatus(HttpStatus.NoContent);
+      return;
+    }
+
     if (!user) {
       res.status(HttpStatus.BadRequest).send({
         errorsMessages: [{ field: "code", message: "Invalid confirmation code" }],
       });
-      return;
-    }
-
-    if (user.emailConfirmation.isConfirmed) {
-      res.sendStatus(HttpStatus.NoContent);
       return;
     }
 
