@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { PostInputDto } from "../../../posts/dto/post.input-dto";
-import { postService } from "../../../posts/application/posts.service";
+import { postService } from "../../../posts/domain/posts.service";
 import { mapToPostViewModel } from "../../../posts/routers/mappers/map-to-post-view-model";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import { NotFoundError } from "../../../core/utils/app-response-errors";
-import { blogService } from "../../application/blog.service";
+import { blogService } from "../../domain/blog.service";
 
 export async function createPostByBlogIdHandler(
   req: Request<{ blogId: string }, {}, PostInputDto>,

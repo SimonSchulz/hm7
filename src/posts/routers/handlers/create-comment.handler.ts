@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PostInputDto } from "../../dto/post.input-dto";
-import { postService } from "../../application/posts.service";
+import { postService } from "../../domain/posts.service";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import {AuthorizationError, NotFoundError} from "../../../core/utils/app-response-errors";
 import {commentsService} from "../../../comments/service/comments.service";

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { setSortAndPagination } from "../../../core/helpers/set-sort-and-pagination";
 import { BlogQueryInput } from "../../types/blog-query.input";
 import { mapToBlogListModel } from "../mappers/map-to-blog-list-model";
-import { blogService } from "../../application/blog.service";
+import { blogService } from "../../domain/blog.service";
 import { ValidationError } from "../../../core/utils/app-response-errors";
 
 export async function getBlogsHandler(

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import { PostInputDto } from "../../dto/post.input-dto";
-import {postService} from "../../application/posts.service";
+import {postService} from "../../domain/posts.service";
 import { NotFoundError } from "../../../core/utils/app-response-errors";
 
 export async function updatePostHandler(

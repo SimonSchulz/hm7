@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import { BlogInputDto } from "../../dto/blog.input-dto";
-import {blogService} from "../../application/blog.service";
+import {blogService} from "../../domain/blog.service";
 import { NotFoundError } from "../../../core/utils/app-response-errors";
 
 export async function updateBlogHandler(

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import {jwtService} from "../../application/jwt.service";
+import {jwtService} from "../../domain/jwt.service";
 import {AuthorizationError} from "../../../core/utils/app-response-errors";
 import {usersQueryRepository} from "../../../user/repositories/user.query.repository";
 

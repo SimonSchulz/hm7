@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from '../../../core/types/http-statuses';
-import {blogService} from "../../application/blog.service";
+import {blogService} from "../../domain/blog.service";
 import { NotFoundError } from "../../../core/utils/app-response-errors";
 
 export async function deleteBlogHandler(req: Request<{id:string}>, res: Response, next: NextFunction): Promise<void> {

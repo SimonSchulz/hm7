@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { mapToPostViewModel } from "../mappers/map-to-post-view-model";
-import { postService } from "../../application/posts.service";
+import { postService } from "../../domain/posts.service";
 import { NotFoundError } from "../../../core/utils/app-response-errors";
 
 export async function getPostHandler(

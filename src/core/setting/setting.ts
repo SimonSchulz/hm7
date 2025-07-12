@@ -6,4 +6,6 @@ export const SETTINGS = {
   DB_NAME: process.env.DB_NAME || "blogger_platform",
   AC_SECRET: process.env.AC_SECRET ||'f1f5deg4hy5fr5d5g',
   AC_TIME: process.env.AC_TIME || 300,
+  EMAIL: process.env.EMAIL as string || 'testovichtest107@gmail.com',
+  EMAIL_PASS: process.env.EMAIL_PASS as string || 'Qwerty123!',
 };

@@ -1,6 +1,6 @@
 import { ObjectId, WithId } from "mongodb";
-import { User } from "../types/user";
 import { userCollection } from "../../db/mongodb";
+import {User} from "../domain/user.entity";
 
 export const usersRepository = {
   async create(user: User): Promise<string> {
@@ -18,5 +18,45 @@ export const usersRepository = {
     return userCollection.findOne({
       $or: [{ email: loginOrEmail }, { login: loginOrEmail }],
     });
+  },
+  async checkExistByLoginOrEmail(
+      login: string,
+      email: string
+  ): Promise<boolean> {
+    const user = await userCollection.findOne({
+      $or: [{ email }, { login }],
+    });
+    return !!user;
+  },
+  async findByConfirmationCode(code: string): Promise<WithId<User> | null> {
+    return userCollection.findOne({ "emailConfirmation.confirmationCode": code });
+  },
+
+  async confirmUser(id: string): Promise<boolean> {
+    if (!ObjectId.isValid(id)) return false;
+    const result = await userCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { "emailConfirmation.isConfirmed": true } }
+    );
+    return result.modifiedCount === 1;
+  },
+
+  async updateConfirmation(
+      id: string,
+      code: string,
+      expiration: string
+  ): Promise<boolean> {
+    if (!ObjectId.isValid(id)) return false;
+    const result = await userCollection.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            "emailConfirmation.confirmationCode": code,
+            "emailConfirmation.expirationDate": expiration,
+            "emailConfirmation.isConfirmed": false,
+          },
+        }
+    );
+    return result.modifiedCount === 1;
   },
 };

@@ -2,8 +2,9 @@ import { UserViewModel } from "../dto/user.view-model";
 import { userCollection } from "../../db/mongodb";
 import { UserQueryInput } from "../types/user-query.input";
 import { ObjectId, WithId } from "mongodb";
-import { User } from "../types/user";
 import { PaginatedOutput } from "../../core/types/paginated.output";
+import {User} from "../domain/user.entity";
+import {mapToUserViewModel} from "../routers/mappers/map-to-user-view-model";
 
 export const usersQueryRepository = {
   async findAllUsers(sortQueryDto: UserQueryInput): Promise<PaginatedOutput> {
@@ -42,22 +43,12 @@ export const usersQueryRepository = {
       page: pageNumber,
       pageSize: pageSize,
       totalCount,
-      items: users.map((u: WithId<User>) => this._getInView(u)),
+      items: users.map((u: WithId<User>) => mapToUserViewModel(u)),
     };
   },
   async findById(id: string): Promise<UserViewModel | null> {
     const user = await userCollection.findOne({ _id: new ObjectId(id) });
-    return user ? this._getInView(user) : null;
+    return user ? mapToUserViewModel(user) : null;
   },
-  _getInView(user: WithId<User>): UserViewModel {
-    return {
-      id: user._id.toString(),
-      login: user.login,
-      email: user.email,
-      createdAt: user.createdAt,
-    };
-  },
-  _checkObjectId(id: string): boolean {
-    return ObjectId.isValid(id);
-  },
+
 };

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {postService} from "../../application/posts.service";
+import {postService} from "../../domain/posts.service";
 import {setSortAndPagination} from "../../../core/helpers/set-sort-and-pagination";
 import {mapToPostListModel} from "../mappers/map-to-post-list";
 import {PostQueryInput} from "../../types/post-query.input";

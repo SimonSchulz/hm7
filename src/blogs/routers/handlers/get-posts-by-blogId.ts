@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import {setSortAndPagination} from "../../../core/helpers/set-sort-and-pagination";
-import {postService} from "../../../posts/application/posts.service";
+import {postService} from "../../../posts/domain/posts.service";
 import {mapToPostListModel} from "../../../posts/routers/mappers/map-to-post-list";
 import {PostQueryInput} from "../../../posts/types/post-query.input";
-import { blogService } from "../../application/blog.service";
+import { blogService } from "../../domain/blog.service";
 import { HttpStatus } from "../../../core/types/http-statuses";
 
 export async function getPostsByBlogIdHandler(

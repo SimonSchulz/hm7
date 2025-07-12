@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import { PostInputDto } from "../../dto/post.input-dto";
 import { mapToPostViewModel } from "../mappers/map-to-post-view-model";
-import {postService} from "../../application/posts.service";
+import {postService} from "../../domain/posts.service";
 import { ValidationError } from "../../../core/utils/app-response-errors";
 
 export async function createPostHandler(
