@@ -22,7 +22,9 @@ export async function confirmRegistration(
 
     const expirationDate = new Date(user.emailConfirmation.expirationDate);
     if (expirationDate < new Date()) {
-      throw new ValidationError("Confirmation code expired");
+      res.status(HttpStatus.BadRequest).send({
+        errorsMessages: [{ field: "code", message: "Confirmation code expired" }],
+      });
     }
 
     const success = await usersRepository.confirmUser(user._id.toString());
@@ -30,7 +32,7 @@ export async function confirmRegistration(
       throw new ValidationError("Failed to confirm user");
     }
 
-    res.status(HttpStatus.NoContent).send('Email was verified. Account was activated');
+    res.status(HttpStatus.NoContent);
   } catch (err) {
     next(err);
   }
