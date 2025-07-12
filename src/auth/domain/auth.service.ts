@@ -5,7 +5,6 @@ import {jwtService} from "./jwt.service";
 import { User } from "../../user/domain/user.entity";
 import {nodemailerService} from "./nodemailer.service";
 import {emailExamples} from "../utils/email-messages";
-import {HttpStatus} from "../../core/types/http-statuses";
 
 export const authService = {
   async loginUser(
@@ -34,12 +33,12 @@ export const authService = {
       login: string,
       pass: string,
       email: string
-  ): Promise<void> {
+  ): Promise<string> {
     const isUser = await usersRepository.checkExistByLoginOrEmail(login, email);
     if (isUser) throw new ValidationError('User with this login or email exists');
     const passwordHash = await bcryptService.generateHash(pass);
     const newUser = new User(login, email, passwordHash);
-    await usersRepository.create(newUser);
+    const id = await usersRepository.create(newUser);
 
     nodemailerService
         .sendEmail(
@@ -48,6 +47,7 @@ export const authService = {
             emailExamples.registrationEmail
         )
         .catch(er => console.error('error in send email:', er));
+    return id;
   },
 
   async confirmEmail(code: string) {
