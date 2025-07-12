@@ -17,10 +17,14 @@ export async function resendConfirmationEmail(
           return ;
         }
 
-        if (user.emailConfirmation.isConfirmed){
-          res.sendStatus(HttpStatus.NoContent);
-          return ;
-        }
+      if (user.emailConfirmation.isConfirmed) {
+        res.status(HttpStatus.BadRequest).send({
+          errorsMessages: [
+            { field: "email", message: "Email is already confirmed" }
+          ]
+        });
+        return;
+      }
 
         const newCode = crypto.randomUUID();
         const newExpiration = addMinutes(new Date(), 10).toISOString();
