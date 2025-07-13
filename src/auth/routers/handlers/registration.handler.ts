@@ -12,25 +12,7 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
         const {login, email, password} = req.body;
         const id = await authService.registerUser(login, password, email);
         if(!id) throw new ValidationError("Invalid data");
-        const auth = req.headers['authorization'] as string;
-      let isAdmin = false;
 
-      if (auth) {
-        const [authType, token] = auth.split(' ');
-        if (authType === 'Basic') {
-          const credentials = Buffer.from(token, 'base64').toString('utf-8');
-          const [username, password] = credentials.split(':');
-          if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-            const success = await usersRepository.confirmUser(id);
-            if (!success) {
-              throw new ValidationError("Failed to confirm user");
-            }
-            isAdmin = true;
-          }
-        }
-      }
-
-      if (!isAdmin) {
         const user = await usersRepository.findById(id);
         if (user && user.emailConfirmation?.confirmationCode) {
           await nodemailerService.sendEmail(
@@ -39,7 +21,6 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
             emailExamples.registrationEmail
           );
         }
-      }
         res.sendStatus(HttpStatus.NoContent);
     }
     catch (e) {

@@ -7,19 +7,24 @@ export const accessTokenGuard = async (
     req: Request,
     res: Response,
     next: NextFunction) => {
-    if (!req.headers.authorization)  throw new AuthorizationError();
+    try {
+      console.log('[ACCESS GUARD] Authorization header:', req.headers.authorization);
+      if (!req.headers.authorization) throw new AuthorizationError();
 
-    const [authType, token] = req.headers.authorization.split(' ');
+      const [authType, token] = req.headers.authorization.split(' ');
 
-    if (authType !== 'Bearer' || !token)  throw new AuthorizationError();
+      if (authType !== 'Bearer' || !token) throw new AuthorizationError();
 
-    const payload = await jwtService.verifyToken(token);
-    if (!payload?.userId) throw new AuthorizationError();
-    const user = await usersRepository.findById(payload.userId);
-    if (!user) throw new AuthorizationError();
-    res.locals.user = {
-        userId: user!._id,
-        userLogin: user!.login,
-    };
-    next();
+      const payload = await jwtService.verifyToken(token);
+      if (!payload?.userId) throw new AuthorizationError();
+      const user = await usersRepository.findById(payload.userId);
+      if (!user) throw new AuthorizationError();
+      res.locals.user = {
+        userId: user._id,
+        userLogin: user.login,
+      };
+    }
+    catch (error) {
+      next(error);
+    }
 };

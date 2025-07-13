@@ -14,6 +14,8 @@ import {
   ValidationError,
 } from "../../core/utils/app-response-errors";
 import { getUsersHandler } from "./handlers/get-users.handler";
+import { usersRepository } from "../repositories/user.repository";
+import { mapToUserViewModel } from "./mappers/map-to-user-view-model";
 
 export const usersRouter = Router({});
 usersRouter.get("/", authMiddleware, getUsersHandler);
@@ -28,11 +30,12 @@ usersRouter.post(
   async (req: Request<{}, {}, InputUserDto>, res: Response<UserViewModel>) => {
     const { login, password, email } = req.body;
     const userId = await usersService.create({ login, password, email });
-    const newUser = await usersQueryRepository.findById(userId);
+    const newUser = await usersRepository.findById(userId);
     if (!newUser) {
       throw new ValidationError("Invalid user data");
     }
-    res.status(HttpStatus.Created).send(newUser!);
+    await usersRepository.confirmUser(userId);
+    res.status(HttpStatus.Created).send(mapToUserViewModel(newUser));
   },
 );
 

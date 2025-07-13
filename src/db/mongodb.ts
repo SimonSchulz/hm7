@@ -16,19 +16,15 @@ export let postCollection: Collection<Post>;
 export let userCollection: Collection<User>;
 export let commentCollection: Collection<Comment>;
 
-// Подключения к бд
 export async function runDB(url: string): Promise<void> {
   client = new MongoClient(url);
-  const db: Db = client.db(SETTINGS.DB_NAME);
-
-  // Инициализация коллекций
-  blogCollection = db.collection<Blog>(BLOGS_COLLECTION_NAME);
-  postCollection = db.collection<Post>(POSTS_COLLECTION_NAME);
-  userCollection = db.collection<User>(USERS_COLLECTION_NAME);
-  commentCollection = db.collection<Comment>(COMMENTS_COLLECTION_NAME);
-
   try {
     await client.connect();
+    const db: Db = client.db(SETTINGS.DB_NAME);
+    blogCollection = db.collection<Blog>(BLOGS_COLLECTION_NAME);
+    postCollection = db.collection<Post>(POSTS_COLLECTION_NAME);
+    userCollection = db.collection<User>(USERS_COLLECTION_NAME);
+    commentCollection = db.collection<Comment>(COMMENTS_COLLECTION_NAME);
     await db.command({ ping: 1 });
     console.log("✅ Connected to the database");
   } catch (e) {

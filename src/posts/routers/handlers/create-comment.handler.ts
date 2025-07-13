@@ -18,7 +18,7 @@ export async function createCommentByPostIdHandler(
         if (!post) {
             throw new NotFoundError("Post with this Id not found");
         }
-        const userInfo: CommentatorInfo =res.locals.user;
+        const userInfo: CommentatorInfo = res.locals.user;
         if (!userInfo) throw new AuthorizationError();
         let comment = await commentsService.create(req.body, userInfo, postId );
         const commentViewModel = mapToCommentViewModel(comment);

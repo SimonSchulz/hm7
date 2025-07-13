@@ -26,7 +26,7 @@ export const authMiddleware = (
     const credentials = Buffer.from(token, 'base64').toString('utf-8');
 
     const [username, password] = credentials.split(':');
-
+    console.log(username, password);
     if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
         res.sendStatus(HttpStatus.Unauthorized);
         return;
