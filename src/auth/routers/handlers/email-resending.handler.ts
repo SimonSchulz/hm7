@@ -1,5 +1,6 @@
 import {usersRepository} from "../../../user/repositories/user.repository";
 import { addMinutes, isAfter } from "date-fns";
+import crypto from "crypto";
 import {NextFunction, Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
 import { nodemailerService } from "../../domain/nodemailer.service";

@@ -19,21 +19,9 @@ export const nodemailerService = {
     await transporter.sendMail({
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`, // обратные кавычки и <...>
       to: email,
-      subject: "Your account confirmation code",
-      html: template(code),
-    });
-  },
-
-  async resendEmail(
-    email: string,
-    code: string,
-    template: (code: string) => string,
-  ): Promise<void> {
-    await transporter.sendMail({
-      from: `"Blogs platform hw7" <${SETTINGS.EMAIL}>`, // тоже исправлено
-      to: email,
       subject: "Email confirmation",
       html: template(code),
     });
   },
+
 };
