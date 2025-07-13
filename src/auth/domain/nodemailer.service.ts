@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer";
 import { SETTINGS } from "../../core/setting/setting";
-import { User } from "../../user/domain/user.entity";
 
 export const nodemailerService = {
   async sendEmail(
-    user: User,
+    email: string,
+    code: string,
+    template: (code: string) => string,
   ): Promise<void> {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -14,16 +15,14 @@ export const nodemailerService = {
       },
       tls: {
         rejectUnauthorized: false,
-      },
+      }
     });
     await transporter.sendMail({
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
-      to: user.email,
+      to: email,
       subject: "Email confirmation",
-      html: `<h1>Thanks for your registration</h1>
-<p>To finish registration please follow the link below:
-    <a href='https://somesite.com/confirm-email?code=${user.emailConfirmation.confirmationCode}'>complete registration</a>
-</p>`,
+      html: template(code),
     });
   },
+
 };
