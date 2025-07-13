@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import {jwtService} from "../../domain/jwt.service";
 import {AuthorizationError} from "../../../core/utils/app-response-errors";
-import {usersQueryRepository} from "../../../user/repositories/user.query.repository";
+import { usersRepository } from "../../../user/repositories/user.repository";
 
 export const accessTokenGuard = async (
     req: Request,
@@ -15,9 +15,10 @@ export const accessTokenGuard = async (
 
     const payload = await jwtService.verifyToken(token);
     if (!payload?.userId) throw new AuthorizationError();
-    const user = await usersQueryRepository.findById(payload.userId);
+    const user = await usersRepository.findById(payload.userId);
+    if (!user) throw new AuthorizationError();
     res.locals.user = {
-        userId: user!.id,
+        userId: user!._id,
         userLogin: user!.login,
     };
     next();
