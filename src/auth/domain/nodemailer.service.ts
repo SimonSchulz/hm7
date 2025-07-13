@@ -48,18 +48,10 @@ export const nodemailerService = {
       },
     });
 
-    transporter.verify((err, success) => {
-      if (err) {
-        console.error('SMTP проверка НЕ прошла:', err);
-      } else {
-        console.log('SMTP работает нормально!');
-      }
-    });
-
     await transporter.sendMail({
-      from: `"Blogs platform 2" <${SETTINGS.EMAIL}>`, // тоже исправлено
+      from: `"Blogs platform hw7" <${SETTINGS.EMAIL}>`, // тоже исправлено
       to: email,
-      subject: 'Your new account confirmation code',
+      subject: 'Email confirmation',
       html: template(code),
     });
   },

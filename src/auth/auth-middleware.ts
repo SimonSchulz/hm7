@@ -10,23 +10,17 @@ export const authMiddleware = (
     next: NextFunction,
 ) => {
     const auth = req.headers['authorization'] as string; // 'Basic xxxx'
-
     if (!auth) {
         res.sendStatus(HttpStatus.Unauthorized);
         return;
     }
-
     const [authType, token] = auth.split(' '); //admin:qwerty
-
     if (authType !== 'Basic') {
         res.sendStatus(HttpStatus.Unauthorized);
         return;
     }
-
     const credentials = Buffer.from(token, 'base64').toString('utf-8');
-
     const [username, password] = credentials.split(':');
-    console.log(username, password);
     if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
         res.sendStatus(HttpStatus.Unauthorized);
         return;

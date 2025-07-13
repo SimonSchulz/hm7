@@ -9,13 +9,9 @@ export const accessTokenGuard = async (
     next: NextFunction) => {
     try {
       if (!req.headers.authorization) throw new AuthorizationError();
-
       const [authType, token] = req.headers.authorization.split(' ');
-
       if (authType !== 'Bearer' || !token) throw new AuthorizationError();
-
       const payload = await jwtService.verifyToken(token);
-      console.log(payload);
       if (!payload?.userId) throw new AuthorizationError();
       const user = await usersRepository.findById(payload.userId);
       if (!user) throw new AuthorizationError();
