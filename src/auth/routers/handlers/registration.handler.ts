@@ -18,7 +18,7 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
           await nodemailerService.sendEmail(
             user.email,
             user.emailConfirmation.confirmationCode,
-            emailExamples.registrationEmail
+            emailExamples.resendEmail
           );
         }
         res.sendStatus(HttpStatus.NoContent);

@@ -24,5 +24,27 @@ export const nodemailerService = {
       html: template(code),
     });
   },
+  async resendEmail(
+    email: string,
+    code: string,
+    template: (code: string) => string,
+  ): Promise<void> {
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: SETTINGS.EMAIL,
+        pass: SETTINGS.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      }
+    });
+    await transporter.sendMail({
+      from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
+      to: email,
+      subject: "New email confirmation",
+      html: template(code),
+    });
+  },
 
 };
