@@ -22,4 +22,24 @@ export const nodemailerService = {
             html: template(code), // html body
         });
     },
+  async resendEmail(
+    email: string,
+    code: string,
+    template: (code: string) => string
+  ): Promise<void> {
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: SETTINGS.EMAIL,
+        pass: SETTINGS.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: '"Blogs platform 2" <codeSender>',
+      to: email,
+      subject: 'Your new account confirmation code',
+      html: template(code), // html body
+    });
+  },
 };

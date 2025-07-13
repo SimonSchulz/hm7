@@ -15,6 +15,7 @@ export const accessTokenGuard = async (
       if (authType !== 'Bearer' || !token) throw new AuthorizationError();
 
       const payload = await jwtService.verifyToken(token);
+      console.log(payload);
       if (!payload?.userId) throw new AuthorizationError();
       const user = await usersRepository.findById(payload.userId);
       if (!user) throw new AuthorizationError();

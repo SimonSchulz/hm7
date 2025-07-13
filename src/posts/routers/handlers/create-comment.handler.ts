@@ -14,11 +14,15 @@ export async function createCommentByPostIdHandler(
 ) {
     try {
         const postId = req.params.postId;
+        console.log(postId);
         let post = await postService.findByIdOrFail(postId);
         if (!post) {
             throw new NotFoundError("Post with this Id not found");
         }
-        const userInfo: CommentatorInfo = res.locals.user;
+
+        const userInfo: CommentatorInfo | undefined = req.userInfo;
+        console.log(post);
+        console.log(userInfo);
         if (!userInfo) throw new AuthorizationError();
         let comment = await commentsService.create(req.body, userInfo, postId );
         const commentViewModel = mapToCommentViewModel(comment);
