@@ -20,7 +20,7 @@ export const nodemailerService = {
     await transporter.sendMail({
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
       to: email,
-      subject: `Email Confirmation - ${Date.now()}`,
+      subject: `Email Confirmation`,
       html: template(code),
     });
   },
