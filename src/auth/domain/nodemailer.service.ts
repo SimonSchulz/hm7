@@ -25,6 +25,4 @@ export const nodemailerService = {
     });
     await new Promise(r => setTimeout(r, 500));
   },
-
-
 };
