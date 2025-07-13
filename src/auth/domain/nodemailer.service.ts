@@ -1,23 +1,21 @@
 import nodemailer from "nodemailer";
 import { SETTINGS } from "../../core/setting/setting";
 
-const isTestEnv = process.env.NODE_ENV === 'test' || process.env.CI === 'true';
 
-const transporter = isTestEnv
-  ? nodemailer.createTransport({
-    host: 'localhost',
-    port: 1025,
-    secure: false,
-  })
-  : nodemailer.createTransport({
-    host: "smtp.yandex.ru",
-    port: 465,
-    secure: true,
-    auth: {
-      user: SETTINGS.EMAIL,
-      pass: SETTINGS.EMAIL_PASS,
-    },
-  });
+// let transporter = nodemailer.createTransport({
+//   host: "smtp.yandex.ru",
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     user: SETTINGS.EMAIL,
+//     pass: SETTINGS.EMAIL_PASS,
+//   },
+// });
+const transporter = nodemailer.createTransport({
+  host: 'localhost',
+  port: 1025,
+  secure: false,
+});
 export const nodemailerService = {
   async sendEmail(
     email: string,
