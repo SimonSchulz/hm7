@@ -23,6 +23,5 @@ export const nodemailerService = {
       subject: `Email Confirmation`,
       html: template(code),
     });
-    await new Promise(r => setTimeout(r, 500));
   },
 };
