@@ -27,13 +27,13 @@ export async function resendConfirmationEmail(
       return;
     }
     const now = new Date();
-    //const existingCode = user.emailConfirmation.confirmationCode;
-    //const expiration = new Date(user.emailConfirmation.expirationDate);
+    const existingCode = user.emailConfirmation.confirmationCode;
+    const expiration = new Date(user.emailConfirmation.expirationDate);
 
-    //let codeToSend = existingCode;
+    let codeToSend = existingCode;
 
-    //if (!isAfter(expiration, now)) {
-      let codeToSend = crypto.randomUUID();
+    if (!isAfter(expiration, now)) {
+      codeToSend = crypto.randomUUID();
       const newExpiration = addMinutes(now, 10).toISOString();
 
       await usersRepository.updateConfirmation(
@@ -41,7 +41,7 @@ export async function resendConfirmationEmail(
         codeToSend,
         newExpiration,
       );
-    //}
+    }
     await nodemailerService.sendEmail(
       user.email,
       codeToSend,
