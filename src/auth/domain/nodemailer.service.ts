@@ -7,9 +7,7 @@ export const nodemailerService = {
     user: User,
   ): Promise<void> {
     let transporter = nodemailer.createTransport({
-      host: "smtp.yandex.ru",
-      port: 465,
-      secure: true,
+      service: 'gmail',
       auth: {
         user: SETTINGS.EMAIL,
         pass: SETTINGS.EMAIL_PASS,
@@ -22,7 +20,7 @@ export const nodemailerService = {
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
       to: user.email,
       subject: "Email confirmation",
-      html: `<h1>Thank for your registration</h1>
+      html: `<h1>Thanks for your registration</h1>
 <p>To finish registration please follow the link below:
     <a href='https://somesite.com/confirm-email?code=${user.emailConfirmation.confirmationCode}'>complete registration</a>
 </p>`,
