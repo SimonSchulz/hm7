@@ -29,6 +29,5 @@ export const inputValidationResultMiddleware = (
         res.status(HttpStatus.BadRequest).json({ errorsMessages: errors });
         return;
     }
-
     next();
 };

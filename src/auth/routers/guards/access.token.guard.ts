@@ -8,7 +8,6 @@ export const accessTokenGuard = async (
     res: Response,
     next: NextFunction) => {
     try {
-      console.log('[ACCESS GUARD] Authorization header:', req.headers.authorization);
       if (!req.headers.authorization) throw new AuthorizationError();
 
       const [authType, token] = req.headers.authorization.split(' ');
@@ -19,10 +18,11 @@ export const accessTokenGuard = async (
       if (!payload?.userId) throw new AuthorizationError();
       const user = await usersRepository.findById(payload.userId);
       if (!user) throw new AuthorizationError();
-      res.locals.user = {
-        userId: user._id,
+      req.userInfo = {
+        userId: user._id.toString(),
         userLogin: user.login,
       };
+      next();
     }
     catch (error) {
       next(error);
