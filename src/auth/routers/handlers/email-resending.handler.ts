@@ -41,6 +41,7 @@ export async function resendConfirmationEmail(
         codeToSend,
         newExpiration,
       );
+      await new Promise(r => setTimeout(r, 3000))
     }
     await nodemailerService.sendEmail(
       user.email,
