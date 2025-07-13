@@ -2,19 +2,17 @@ import nodemailer from "nodemailer";
 import { SETTINGS } from "../../core/setting/setting";
 
 
-// let transporter = nodemailer.createTransport({
-//   host: "smtp.yandex.ru",
-//   port: 465,
-//   secure: true,
-//   auth: {
-//     user: SETTINGS.EMAIL,
-//     pass: SETTINGS.EMAIL_PASS,
-//   },
-// });
-const transporter = nodemailer.createTransport({
-  host: 'localhost',
-  port: 1025,
-  secure: false,
+let transporter = nodemailer.createTransport({
+  host: "smtp.yandex.ru",
+  port: 465,
+  secure: true,
+  auth: {
+    user: SETTINGS.EMAIL,
+    pass: SETTINGS.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  }
 });
 export const nodemailerService = {
   async sendEmail(
