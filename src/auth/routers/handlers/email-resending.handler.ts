@@ -1,5 +1,5 @@
 import {usersRepository} from "../../../user/repositories/user.repository";
-import { addMinutes } from "date-fns";
+import { addMinutes, isAfter } from "date-fns";
 import {NextFunction, Request, Response} from "express";
 import {HttpStatus} from "../../../core/types/http-statuses";
 import { nodemailerService } from "../../domain/nodemailer.service";
@@ -25,20 +25,30 @@ export async function resendConfirmationEmail(
         });
         return;
       }
+      const now = new Date();
+      const existingCode = user.emailConfirmation.confirmationCode;
+      const expiration = new Date(user.emailConfirmation.expirationDate);
 
-        const newCode = crypto.randomUUID();
-        const newExpiration = addMinutes(new Date(), 10).toISOString();
+      let codeToSend = existingCode;
+
+      if (!isAfter(expiration, now)) {
+        codeToSend = crypto.randomUUID();
+        const newExpiration = addMinutes(now, 10).toISOString();
+
         await usersRepository.updateConfirmation(
-            user._id.toString(),
-            newCode,
-            newExpiration
+          user._id.toString(),
+          codeToSend,
+          newExpiration
         );
-      await nodemailerService.resendEmail(
+      }
+
+      await nodemailerService.sendEmail(
         user.email,
-        newCode,
-        emailExamples.resendEmail
+        codeToSend,
+        emailExamples.registrationEmail
       );
-        res.sendStatus(HttpStatus.NoContent);
+
+      res.sendStatus(HttpStatus.NoContent);
     }
     catch (error) {
         next(error);
