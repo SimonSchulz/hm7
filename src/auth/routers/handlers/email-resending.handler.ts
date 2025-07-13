@@ -42,7 +42,7 @@ export async function resendConfirmationEmail(
         newExpiration,
       );
     }
-    await nodemailerService.resendEmail(
+    await nodemailerService.sendEmail(
       user.email,
       codeToSend,
       emailExamples.resendEmail);
