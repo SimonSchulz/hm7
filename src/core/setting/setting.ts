@@ -6,6 +6,8 @@ export const SETTINGS = {
   DB_NAME: process.env.DB_NAME || "blogger_platform",
   AC_SECRET: process.env.AC_SECRET ||'f1f5deg4hy5fr5d5g',
   AC_TIME: process.env.AC_TIME || 600,
-  EMAIL: process.env.EMAIL as string || 'testovichtest107@gmail.com',
-  EMAIL_PASS: process.env.EMAIL_PASS as string || 'typj whjv vrcg aksj',
+  //EMAIL: process.env.EMAIL as string || 'testovichtest107@gmail.com',
+  EMAIL: process.env.EMAIL as string || "testovich43@yandex.com",
+  EMAIL_PASS: process.env.EMAIL_PASS as string || 'gnxofwxetibnmuqf',
+  //EMAIL_PASS: process.env.EMAIL_PASS as string || 'typj whjv vrcg aksj',
 };
