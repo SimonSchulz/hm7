@@ -51,14 +51,4 @@ export const authService = {
     return id;
   },
 
-  async confirmEmail(code: string) {
-    const isUuid = new RegExp(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-    ).test(code);
-
-    if (!isUuid) {
-      throw new ValidationError('Invalid code');
-    }
-  },
-
 };
