@@ -13,7 +13,7 @@ export async function updateCommentHandler(
         const id = req.params.id;
         const comment = await commentsService.findByIdOrFail(id);
         if (!comment) { throw new NotFoundError('Comment not found'); }
-        const userId = res.locals.user.userId;
+        const userId = req.userInfo?.userId;
         if (comment?.commentatorInfo.userId !== userId) {
             throw new ForbiddenError('Access denied: not the comment owner');
         }
