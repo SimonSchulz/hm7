@@ -17,6 +17,7 @@ export const nodemailerService = {
         rejectUnauthorized: false,
       }
     });
+    await new Promise(r => setTimeout(r, 2000))
     await transporter.sendMail({
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
       to: email,
