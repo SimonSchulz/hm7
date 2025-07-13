@@ -52,12 +52,12 @@ import nodemailer from "nodemailer";
 
 class NodemailerService {
   private transporter!: nodemailer.Transporter;
+  private initialized = false;
 
-  constructor() {
-    this.init();
-  }
-
+  // Инициализируем только один раз
   private async init() {
+    if (this.initialized) return;
+
     const testAccount = await nodemailer.createTestAccount();
 
     this.transporter = nodemailer.createTransport({
@@ -70,26 +70,26 @@ class NodemailerService {
       },
     });
 
-    console.log("📧 Ethereal test account:");
-    console.log("  🔑 User:", testAccount.user);
-    console.log("  🔐 Pass:", testAccount.pass);
+    this.initialized = true;
+
+    console.log("✅ Nodemailer инициализирован");
+    console.log("📧 user:", testAccount.user);
+    console.log("📧 pass:", testAccount.pass);
   }
 
-  public async sendEmail(
-    to: string,
-    code: string,
-    messageTemplate: (code: string) => string,
-  ): Promise<void> {
+  // Публичный метод для отправки писем
+  public async sendEmail(to: string, code: string, getHtml: (code: string) => string): Promise<void> {
+    // Инициализация перед первой отправкой
+    await this.init();
+
     const info = await this.transporter.sendMail({
-      from: '"MyApp" <no-reply@myapp.com>',
+      from: '"My App" <no-reply@myapp.com>',
       to,
-      subject: "Email Confirmation Code",
-      html: messageTemplate(code),
+      subject: "Email Confirmation",
+      html: getHtml(code),
     });
 
-    // Это даст ссылку на просмотр письма в Ethereal Web UI
-    console.log("📨 Preview email:", nodemailer.getTestMessageUrl(info));
+    console.log("📬 Email отправлен, preview URL:", nodemailer.getTestMessageUrl(info));
   }
 }
-
 export const nodemailerService = new NodemailerService();

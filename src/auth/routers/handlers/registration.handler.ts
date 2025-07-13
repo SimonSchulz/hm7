@@ -3,8 +3,8 @@ import {authService} from "../../domain/auth.service";
 import {HttpStatus} from "../../../core/types/http-statuses";
 import { ValidationError } from "../../../core/utils/app-response-errors";
 import { usersRepository } from "../../../user/repositories/user.repository";
-import { nodemailerService } from "../../domain/nodemailer.service";
 import { emailExamples } from "../../utils/email-messages";
+import { nodemailerService } from "../../domain/nodemailer.service";
 
 export async function registrationHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
