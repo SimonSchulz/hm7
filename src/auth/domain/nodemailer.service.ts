@@ -17,13 +17,13 @@ export const nodemailerService = {
         rejectUnauthorized: false,
       }
     });
+    await new Promise(r => setTimeout(r, 1500));
     await transporter.sendMail({
       from: `"Blogs platform" <${SETTINGS.EMAIL}>`,
       to: email,
       subject: `Email Confirmation`,
       html: template(code),
     });
-    await new Promise(r => setTimeout(r, 2500));
   },
 
 
