@@ -15,7 +15,6 @@ export async function registrationHandler (req: Request, res: Response, next: Ne
         const user = await usersRepository.findById(id);
         if (!user) throw new ValidationError("Invalid data");
         if (user) {
-          await new Promise(r => setTimeout(r, 3000))
           await nodemailerService.sendEmail(
             user.email,
             user.emailConfirmation.confirmationCode,
