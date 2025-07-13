@@ -45,7 +45,7 @@ export async function resendConfirmationEmail(
     await nodemailerService.sendEmail(
       user.email,
       codeToSend,
-      emailExamples.resendEmail);
+      emailExamples.registrationEmail);
     res.sendStatus(HttpStatus.NoContent);
     return;
   } catch (error) {
