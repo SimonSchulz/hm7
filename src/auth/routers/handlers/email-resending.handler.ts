@@ -5,11 +5,6 @@ import {HttpStatus} from "../../../core/types/http-statuses";
 import { nodemailerService } from "../../domain/nodemailer.service";
 import { emailExamples } from "../../utils/email-messages";
 
-export function delay() {
-  return new Promise(resolve => setTimeout(resolve, 5000));
-}
-
-
 export async function resendConfirmationEmail(
     req: Request<{}, {}, {email:string }>,
     res: Response,
@@ -43,7 +38,6 @@ export async function resendConfirmationEmail(
         newCode,
         emailExamples.resendEmail
       );
-        await delay();
         res.sendStatus(HttpStatus.NoContent);
     }
     catch (error) {
